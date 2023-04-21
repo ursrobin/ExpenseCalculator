@@ -1,4 +1,3 @@
-// from 86.5
 import 'package:flutter/material.dart';
 import './widgets/chart.dart';
 import './widgets/new_transaction.dart';
@@ -48,15 +47,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // list of user tansactions (to store)
   final List<Transaction> _usertransactions = [];
   int id = 1;
 
-  void _addTransaction(String txTitle, double txAmount) {
+  void _addTransaction(String txTitle, double txAmount, DateTime txDate) {
     final txItem = Transaction(
       id: 't${id++}',
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: txDate,
     );
 
     setState(() {
@@ -79,13 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
         context: ctx,
         builder: (_) {
           return GestureDetector(
-            child: NewTransaction(_addTransaction),
+            child: NewTransaction(_addTransaction, ctx),
           );
         });
   }
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             onPressed: () => _startAddTransactionModal(context),
             icon: const Icon(Icons.add),
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(
